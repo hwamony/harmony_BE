@@ -11,8 +11,7 @@ import java.util.List;
 @Entity
 public class Family {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String familyName;
@@ -20,6 +19,8 @@ public class Family {
     private String familyCode;
 
     private int monthlyScore;
+
+    private int totalScore;
 
     private boolean flower;
 
