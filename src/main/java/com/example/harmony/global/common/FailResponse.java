@@ -1,27 +1,19 @@
 package com.example.harmony.global.common;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-@Getter
-public class FailResponse<T> {
+public class FailResponse<T> extends Response {
 
-    private int code;
-
-    private String msg;
     private List<String> errors;
 
     public FailResponse(HttpStatus httpStatus, String msg) {
-
-        this.code = httpStatus.value();
-        this.msg = msg;
+        super(httpStatus, msg);
     }
 
     public FailResponse(HttpStatus httpStatus, String msg, List<String> errors) {
-        this.code = httpStatus.value();
-        this.msg = msg;
+        super(httpStatus, msg);
         this.errors = errors;
     }
 }

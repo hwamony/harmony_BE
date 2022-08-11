@@ -1,25 +1,17 @@
 package com.example.harmony.global.common;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
-
-@Getter
-public class SuccessResponse<T> {
-
-    private int code;
-
-    private String msg;
+z
+public class SuccessResponse<T> extends Response {
 
     private T data;
 
     public SuccessResponse(HttpStatus httpStatus, String msg) {
-        this.code = httpStatus.value();
-        this.msg = msg;
+        super(httpStatus, msg);
     }
 
     public SuccessResponse(HttpStatus httpStatus, String msg, T data) {
-        this.code = httpStatus.value();
-        this.msg = msg;
+        super(httpStatus, msg);
         this.data = data;
     }
 }
