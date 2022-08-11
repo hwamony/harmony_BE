@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -42,8 +44,16 @@ public class UserService {
     }
 
     // 이메일 중복체크
-    public boolean emailChk(String email) { return userRepository.findByEmail(email).isEmpty(); }
+    public Map<String, Object> emailChk(String email) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("exist",userRepository.findByEmail(email).isEmpty());
+        return data;
+    }
 
     // 닉네임 중복체크
-    public boolean nicknameChk(String nickname) { return userRepository.findByNickname(nickname).isEmpty(); }
+    public Map<String,Object> nicknameChk(String nickname) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("exist",userRepository.findByNickname(nickname).isEmpty());
+        return data;
+    }
 }
