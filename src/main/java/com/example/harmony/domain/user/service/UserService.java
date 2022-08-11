@@ -44,16 +44,14 @@ public class UserService {
     }
 
     // 이메일 중복체크
-    public Map<String, Object> emailChk(String email) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("exist",userRepository.findByEmail(email).isEmpty());
-        return data;
+    public boolean emailChk(String email) {
+        return userRepository.findByEmail(email).isEmpty();
     }
 
     // 닉네임 중복체크
     public Map<String,Object> nicknameChk(String nickname) {
         Map<String, Object> data = new HashMap<>();
-        data.put("exist",userRepository.findByNickname(nickname).isEmpty());
+        data.put("exist",userRepository.existsByNickname(nickname));
         return data;
     }
 }

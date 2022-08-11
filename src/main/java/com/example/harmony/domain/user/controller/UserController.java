@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +30,9 @@ public class UserController {
     // 이메일 중복체크
     @PostMapping("/api/email-check")
     public ResponseEntity<?> emailChk(@RequestBody String email) {
-        return ResponseEntity.ok(new SuccessResponse(HttpStatus.OK,"이메일 중복체크를 성공하였습니다.",userService.emailChk(email)));
+        Map<String, Object> data = new HashMap<>();
+        data.put("exist",userService.emailChk(email));
+        return ResponseEntity.ok(new SuccessResponse(HttpStatus.OK,"이메일 중복체크를 성공하였습니다.",data));
     }
 
     // 닉네임 중복체크
