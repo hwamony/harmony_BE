@@ -1,7 +1,7 @@
 package com.example.harmony.global.common;
 
 import org.springframework.http.HttpStatus;
-
+z
 public class SuccessResponse<T> extends Response {
 
     private T data;
