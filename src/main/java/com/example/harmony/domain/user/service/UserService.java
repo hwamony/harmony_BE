@@ -1,5 +1,6 @@
 package com.example.harmony.domain.user.service;
 
+import com.example.harmony.domain.user.dto.CheckResponse;
 import com.example.harmony.domain.user.dto.SignupRequest;
 import com.example.harmony.domain.user.entity.User;
 import com.example.harmony.domain.user.repository.UserRepository;
@@ -10,8 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 @Service
@@ -44,14 +44,39 @@ public class UserService {
     }
 
     // 이메일 중복체크
-    public boolean emailChk(String email) {
-        return userRepository.findByEmail(email).isEmpty();
+    @Transactional
+    public CheckResponse emailChk(String email) {
+        // 빈 값 금지
+        if(email.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"이메일을 입력해주세요.");
+        }
+        // 이메일 형식
+        String regex = "^[a-zA-Z\\d+-_.]+@[a-zA-Z\\d-]+\\.[a-zA-Z\\d-.]+$";
+        if(!Pattern.matches(regex,email)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"이메일 형식이 아닙니다.");
+        }
+        // 이메일 중복체크
+        if(userRepository.findByEmail(email).isPresent()) {
+            return new CheckResponse(false);
+        }
+        return new CheckResponse(true);
     }
 
     // 닉네임 중복체크
-    public Map<String,Object> nicknameChk(String nickname) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("exist",userRepository.existsByNickname(nickname));
-        return data;
+    @Transactional
+    public CheckResponse nicknameChk(String nickname) {
+        // 빈 값 금지
+        if(nickname.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"닉네임을 입력해주세요.");
+        }
+        // 길이 2~20자
+        if(nickname.length()<2||nickname.length()>20) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"닉네임은 2~20자 내로 입력해야합니다.");
+        }
+        // 닉네임 중복체크
+        if(userRepository.findByNickname(nickname).isPresent()) {
+            return new CheckResponse(false);
+        }
+        return new CheckResponse(true);
     }
 }
