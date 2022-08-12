@@ -2,8 +2,12 @@ package com.example.harmony.domain.user.service;
 
 import com.example.harmony.domain.user.dto.CheckResponse;
 import com.example.harmony.domain.user.dto.SignupRequest;
+import com.example.harmony.domain.user.entity.Family;
+import com.example.harmony.domain.user.entity.RoleEnum;
 import com.example.harmony.domain.user.entity.User;
+import com.example.harmony.domain.user.repository.FamilyRepository;
 import com.example.harmony.domain.user.repository.UserRepository;
+import com.example.harmony.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +21,7 @@ import java.util.regex.Pattern;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final FamilyRepository familyRepository;
     private final PasswordEncoder passwordEncoder;
 
     // 회원가입
@@ -79,4 +84,24 @@ public class UserService {
         }
         return new CheckResponse(true);
     }
+
+    // 가족코드 입력
+    public void enterFamilyCode(String familyCode, UserDetailsImpl userDetails) {
+        Family family = familyRepository.findByFamilyCode(familyCode).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"유효한 가족코드가 아닙니다.")
+        );
+
+        User user = userDetails.getUser();
+        user.setFamily(family);
+        userRepository.save(user);
+    }
+
+    // 역할 설정
+    public void setRole(String role, UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        RoleEnum roleEnum = RoleEnum.nameOf(role);
+        user.setRole(roleEnum);
+        userRepository.save(user);
+    }
+
 }

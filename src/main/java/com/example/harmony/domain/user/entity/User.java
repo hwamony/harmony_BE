@@ -43,4 +43,10 @@ public class User {
         this.password = password;
         this.gender = gender;
     }
+
+    public void setFamily(Family family) {
+        this.family = family;
+    }
+
+    public void setRole(RoleEnum role) { this.role = role; }
 }

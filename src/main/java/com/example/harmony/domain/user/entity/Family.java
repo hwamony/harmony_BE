@@ -24,6 +24,11 @@ public class Family {
 
     private boolean flower;
 
-    @OneToMany(mappedBy = "family")
+    @OneToMany(mappedBy = "family", fetch = FetchType.EAGER)
     private List<User> members;
+
+    public Family(String familyName, String familyCode) {
+        this.familyName = familyName;
+        this.familyCode = familyCode;
+    }
 }
