@@ -57,7 +57,7 @@ class FamilyServiceTest {
     }
 
     @Nested
-    @DisplayName("가족코드 생성")
+    @DisplayName("가족 정보 조회")
     class getFamily {
 
         @Nested
