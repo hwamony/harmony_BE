@@ -1,15 +1,14 @@
 package com.example.harmony.domain.user.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
 public class CheckResponse {
 
-    private boolean exist;
+    private boolean enable;
 
     public CheckResponse(boolean exist) {
-        this.exist = exist;
+        this.enable = exist;
     }
 }

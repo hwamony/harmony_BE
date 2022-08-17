@@ -26,7 +26,7 @@ public class UserService {
 
     // 회원가입
     @Transactional
-    public void signup(SignupRequest requestDto) {
+    public String signup(SignupRequest requestDto) {
         String email = requestDto.getEmail();
         String nickname = requestDto.getNickname();
         String password = requestDto.getPassword();
@@ -40,12 +40,14 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이미 존재하는 닉네임입니다.");
         }
         // 비밀번호 일치 여부
-        if(!password.equals(requestDto.getConfirmPassword())) {
+        if(!password.equals(requestDto.getPasswordConfirm())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다.");
         }
 
         String encodedPassword = passwordEncoder.encode(password);
         userRepository.save(new User(email, requestDto.getName(), nickname, encodedPassword, requestDto.getGender()));
+        return "회원가입을 성공하였습니다.";
+
     }
 
     // 이메일 중복체크
@@ -87,7 +89,7 @@ public class UserService {
     }
 
     // 가족코드 입력
-    public void enterFamilyCode(String familyCode, UserDetailsImpl userDetails) {
+    public String enterFamilyCode(String familyCode, UserDetailsImpl userDetails) {
         Family family = familyRepository.findByFamilyCode(familyCode).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"유효한 가족코드가 아닙니다.")
         );
@@ -95,14 +97,16 @@ public class UserService {
         User user = userDetails.getUser();
         user.setFamily(family);
         userRepository.save(user);
+        return "가족 연결이 완료되었습니다.";
     }
 
     // 역할 설정
-    public void setRole(String role, UserDetailsImpl userDetails) {
+    public String setRole(String role, UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         RoleEnum roleEnum = RoleEnum.nameOf(role);
         user.setRole(roleEnum);
         userRepository.save(user);
+        return "역할 설정을 완료하였습니다";
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.harmony.domain.user.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 @AllArgsConstructor
+@Builder
 public class SignupRequest {
 
     @Email(message = "이메일 형식이 아닙니다.")
@@ -27,7 +29,7 @@ public class SignupRequest {
     private String password;
 
     @NotBlank(message = "비밀번호 확인을 입력해주세요.")
-    private String confirmPassword;
+    private String passwordConfirm;
 
     @NotNull(message = "성별을 선택해주세요.")
     private String gender;

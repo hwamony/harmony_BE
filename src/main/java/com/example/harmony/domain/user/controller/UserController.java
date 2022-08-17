@@ -25,8 +25,7 @@ public class UserController {
     // 회원가입
     @PostMapping("/api/signup")
     public ResponseEntity<?> signup(@RequestBody @Valid SignupRequest request) {
-        userService.signup(request);
-        return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, "회원가입을 성공하였습니다."));
+        return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK, userService.signup(request)));
     }
 
     // 이메일 중복체크
@@ -47,18 +46,14 @@ public class UserController {
     @PutMapping("/api/family/join")
     public ResponseEntity<?> enterFamilyCode(@RequestBody Map<String,String> map,
                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String msg = "가족 연결이 완료되었습니다.";
-        userService.enterFamilyCode(map.get("familyCode"), userDetails);
-        return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK,msg));
+        return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK,userService.enterFamilyCode(map.get("familyCode"), userDetails)));
     }
 
     // 역할 설정
     @PutMapping("/api/user/role")
     public ResponseEntity<?> setRole(@RequestBody Map<String,String> map,
                                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String msg = "역할 설정을 완료하였습니다.";
-        userService.setRole(map.get("role"), userDetails);
-        return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK,msg));
+        return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK,userService.setRole(map.get("role"), userDetails)));
     }
 
 }
