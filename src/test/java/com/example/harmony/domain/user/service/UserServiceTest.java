@@ -2,9 +2,11 @@ package com.example.harmony.domain.user.service;
 
 import com.example.harmony.domain.user.dto.CheckResponse;
 import com.example.harmony.domain.user.dto.SignupRequest;
+import com.example.harmony.domain.user.entity.Family;
 import com.example.harmony.domain.user.entity.User;
 import com.example.harmony.domain.user.repository.FamilyRepository;
 import com.example.harmony.domain.user.repository.UserRepository;
+import com.example.harmony.global.security.UserDetailsImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -325,6 +326,90 @@ class UserServiceTest {
         }
     }
 
+    @Nested
+    @DisplayName("가족코드 입력")
+    class enterFamilyCode {
 
+        @Nested
+        @DisplayName("실패")
+        class Fails {
+
+            @Test
+            @DisplayName("유효하지 않은 가족코드")
+            void invalidCode() {
+                // given
+                User user = User.builder().build();
+                UserDetailsImpl userDetails = new UserDetailsImpl(user);
+                String familyCode = "AS43dg$f6GFg";
+
+                UserService userService = new UserService(userRepository, familyRepository, passwordEncoder);
+
+                when(familyRepository.findByFamilyCode(familyCode))
+                        .thenReturn(Optional.empty());
+
+                // when
+                Exception exception = assertThrows(ResponseStatusException.class, () -> userService.enterFamilyCode(familyCode,userDetails));
+
+                // then
+                assertEquals("404 NOT_FOUND \"유효한 가족코드가 아닙니다.\"",exception.getMessage());
+            }
+        }
+
+        @Nested
+        @DisplayName("성공")
+        class Success {
+
+            @Test
+            @DisplayName("정상 케이스")
+            void success() {
+                // given
+                User user = User.builder().build();
+                UserDetailsImpl userDetails = new UserDetailsImpl(user);
+                String familyCode = "AS43dg$f6GFg";
+                Family family = Family.builder()
+                        .familyCode(familyCode)
+                        .build();
+
+                UserService userService = new UserService(userRepository, familyRepository, passwordEncoder);
+
+                when(familyRepository.findByFamilyCode(familyCode))
+                        .thenReturn(Optional.of(family));
+                
+                // when
+                String result = userService.enterFamilyCode(familyCode,userDetails);
+
+                // then
+                assertEquals("가족 연결이 완료되었습니다.", result);
+                assertEquals(familyCode,user.getFamily().getFamilyCode());
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("역할 설정")
+    class setRole {
+
+        @Nested
+        @DisplayName("성공")
+        class Success {
+
+            @Test
+            @DisplayName("정상 케이스")
+            void success() {
+                // given
+                User user = User.builder().build();
+                UserDetailsImpl userDetails = new UserDetailsImpl(user);
+                String role = "아빠";
+
+                UserService userService = new UserService(userRepository, familyRepository, passwordEncoder);
+
+                // when
+                String result = userService.setRole(role, userDetails);
+
+                // then
+                assertEquals("역할 설정을 완료하였습니다.", result);
+            }
+        }
+    }
 
 }

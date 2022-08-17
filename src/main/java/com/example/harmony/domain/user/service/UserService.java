@@ -106,7 +106,7 @@ public class UserService {
         RoleEnum roleEnum = RoleEnum.nameOf(role);
         user.setRole(roleEnum);
         userRepository.save(user);
-        return "역할 설정을 완료하였습니다";
+        return "역할 설정을 완료하였습니다.";
     }
 
 }
