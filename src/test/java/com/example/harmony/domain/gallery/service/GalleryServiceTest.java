@@ -407,12 +407,12 @@ class GalleryServiceTest {
                         .build();
 
                 int totalScore = 1000;
-                int monthlyScore = 100;
+                int weeklyScore = 100;
 
                 Family family = Family.builder()
                         .id(1L)
                         .totalScore(totalScore)
-                        .monthlyScore(monthlyScore)
+                        .weeklyScore(weeklyScore)
                         .build();
 
                 User user = User.builder()
@@ -435,7 +435,7 @@ class GalleryServiceTest {
 
                 // then
                 assertEquals(totalScore + 20, family.getTotalScore());
-                assertEquals(monthlyScore + 20, family.getMonthlyScore());
+                assertEquals(weeklyScore + 20, family.getWeeklyScore());
             }
         }
     }
@@ -615,12 +615,12 @@ class GalleryServiceTest {
                 Long galleryId = 1L;
 
                 int totalScore = 1000;
-                int monthlyScore = 100;
+                int weeklyScore = 100;
 
                 Family family = Family.builder()
                         .id(1L)
                         .totalScore(totalScore)
-                        .monthlyScore(monthlyScore)
+                        .weeklyScore(weeklyScore)
                         .build();
 
                 User user = User.builder()
@@ -649,7 +649,7 @@ class GalleryServiceTest {
 
                 // then
                 assertEquals(totalScore - (20 + 5 * comments.size()), family.getTotalScore());
-                assertEquals(monthlyScore - (20 + 5 * comments.size()), family.getMonthlyScore());
+                assertEquals(weeklyScore - (20 + 5 * comments.size()), family.getWeeklyScore());
             }
         }
     }

@@ -27,7 +27,7 @@ public class RankingService {
     @Scheduled(cron = "* * 6 * * MON")
     int RankingMethod(int rk, Long fId) {
 
-        List<Family> familyList = familyRepository.findAll(Sort.by(Sort.Direction.ASC, "monthlyScore"));
+        List<Family> familyList = familyRepository.findAll(Sort.by(Sort.Direction.ASC, "weeklyScore"));
         if (true == familyList.contains(fId)) {
             rk = familyList.indexOf(fId);
             rk++;
@@ -53,28 +53,39 @@ public class RankingService {
 
     @Scheduled(cron = "* * 6 * * MON")
     List top10List() {
-        List<Family> familyList = familyRepository.findAll(Sort.by(Sort.Direction.ASC, "monthlyScore"));
+        List<Family> familyList = familyRepository.findAll(Sort.by(Sort.Direction.ASC, "weeklyScore"));
         List list = new ArrayList<>();
         List fl = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         int ranking = 1;
+        int count = 1;
 
         for (Family familys1 : familyList) {
             map.put("ranking", ranking);
             map.put("level", leveling(familys1.getTotalScore()));
             map.put("familyName", familys1.getFamilyName());
-            map.put("score", familys1.getMonthlyScore());
+            map.put("score", familys1.getWeeklyScore());
             fl.add(map);
 
             List score = new ArrayList<>();
             Map<String, Object> map1 = new HashMap<>();
             for (Family familys2 : familyList) {
-                map1.put("score", familys2.getMonthlyScore());
+                map1.put("score", familys2.getWeeklyScore());
                 score.add(map1);//점수 비교용 하나 생성
 
                 if (ranking != 1) {
                     if (score.get(ranking - 2) != score.get(ranking--)) {//인덱스 기준
-                        ranking++;
+                        ranking = ranking + count;
+                        count = 1;
+                    } else {
+                        count++;
+                    }
+                } else {
+                    if (score.get(2) != score.get(1)) {
+                        ranking = ranking + count;
+                        count = 1;
+                    } else {
+                        count++;
                     }
                 }
             }
@@ -103,10 +114,12 @@ public class RankingService {
             family.setFlower();
         }
 
-        List topList = top10List();
+        List top10List = top10List();
         level = leveling(totalScore);
 
-        return new RankingResponse(family, ranking, level, topList);
+        family.setWeeklyScore();
+
+        return new RankingResponse(family, ranking, level, top10List);
     }
 
 }

@@ -96,11 +96,11 @@ class VoiceMailServiceTest {
                 VoiceMailRequest voiceMailRequest = VoiceMailRequest.builder().build();
 
                 int totalScore = 1000;
-                int monthlyScore = 100;
+                int weeklyScore = 100;
 
                 Family family = Family.builder()
                         .totalScore(totalScore)
-                        .monthlyScore(monthlyScore)
+                        .weeklyScore(weeklyScore)
                         .build();
 
                 User user = User.builder()
@@ -118,7 +118,7 @@ class VoiceMailServiceTest {
 
                 // then
                 assertEquals(totalScore + 20, family.getTotalScore());
-                assertEquals(monthlyScore + 20, family.getMonthlyScore());
+                assertEquals(weeklyScore + 20, family.getWeeklyScore());
             }
         }
     }
@@ -193,12 +193,12 @@ class VoiceMailServiceTest {
                 Long voiceMailId = 1L;
 
                 int totalScore = 1000;
-                int monthlyScore = 100;
+                int weeklyScore = 100;
 
                 Family family = Family.builder()
                         .id(1L)
                         .totalScore(totalScore)
-                        .monthlyScore(monthlyScore)
+                        .weeklyScore(weeklyScore)
                         .build();
 
                 VoiceMail voiceMail = VoiceMail.builder()
@@ -220,7 +220,7 @@ class VoiceMailServiceTest {
 
                 // then
                 assertEquals(totalScore - 20, family.getTotalScore());
-                assertEquals(monthlyScore - 20, family.getMonthlyScore());
+                assertEquals(weeklyScore - 20, family.getWeeklyScore());
             }
         }
     }

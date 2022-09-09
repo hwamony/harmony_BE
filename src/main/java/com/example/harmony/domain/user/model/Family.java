@@ -26,7 +26,7 @@ public class Family {
 
     private int totalScore;
 
-    private int monthlyScore;
+    private int weeklyScore;
 
     private boolean flower;
 
@@ -40,17 +40,22 @@ public class Family {
 
     public void plusScore(int score) {
         this.totalScore += score;
-        this.monthlyScore += score;
+        this.weeklyScore += score;
     }
 
     public void minusScore(int score) {
         this.totalScore -= score;
-        this.monthlyScore -= score;
+        this.weeklyScore -= score;
     }
 
-    @Scheduled(cron ="* * 6 * * MON")
-    public void setFlower(){
-        flower= true;
+    @Scheduled(cron = "* * 6 * * MON")
+    public void setFlower() {
+        flower = true;
         plusScore(50);
+    }
+
+    @Scheduled(cron = "* 1 6 * * MON")
+    public void setWeeklyScore() {
+        this.weeklyScore = 0;
     }
 }
