@@ -28,6 +28,7 @@ public class PostCommentService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"게시물이 존재하지 않습니다.")
         );
+        noBlank(content);
 
         PostComment postComment = new PostComment(content, post, user);
         postCommentRepository.save(postComment);
@@ -41,6 +42,7 @@ public class PostCommentService {
         PostComment postComment = postCommentRepository.findById(commentId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"존재하지 않는 댓글입니다.")
         );
+        noBlank(content);
 
         // 댓글 작성자 여부
         User writer = postComment.getUser();
@@ -69,6 +71,13 @@ public class PostCommentService {
     public void getAuthority(User writer, User user) {
         if(!writer.getId().equals(user.getId())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "댓글에 대한 권한이 없습니다.");
+        }
+    }
+
+    // 빈 값 금지
+    public void noBlank(String comment) {
+        if (comment.trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "댓글을 입력해주세요.");
         }
     }
 
