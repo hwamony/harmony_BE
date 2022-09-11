@@ -18,6 +18,8 @@ public class CorsConfig {
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("http://localhost:8080");
         config.addAllowedOrigin("https://www.hwa-mok.com");
+        config.addAllowedOrigin("https://dev.hwa-mok.com");
+        config.addAllowedOrigin("https://prod.hwa-mok.com");
         config.addAllowedOrigin("https://kauth.kakao.com");
         config.addAllowedOrigin("https://kapi.kakao.com");
         config.addAllowedHeader("*");//모든 header에 응답을 허용하겠다.
