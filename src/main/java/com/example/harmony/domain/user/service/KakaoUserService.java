@@ -134,6 +134,12 @@ public class KakaoUserService {
 
     private Authentication forceLogin(User kakaoUser) {
         UserDetails userDetails = new UserDetailsImpl(kakaoUser);
+
+        // 비활성화 아이디 체크
+        if(!kakaoUser.isActive()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디 또는 비밀번호가 일치하지 않습니다.");
+        }
+
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
