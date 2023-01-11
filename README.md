@@ -15,12 +15,19 @@
 
 📌 우리 가족의 화목 지수는?  ‘가족 등급 및 랭킹 시스템’
 
+
 ## 프로젝트 기간 (6주)
 
 - 기획: 8월 5일 ~ 8월 8일
 - 개발: 2022년 8월 9일 ~ 9월 4일
 - 런칭/마케팅 및 유저 테스트를 통한 개선: 9월 5일 ~ 9월 15일
 - 최종 발표: 9월 16일
+
+## 팀원 소개
+
+- FE: [윤수영](https://github.com/ddooyn)(L), [김다흰](https://github.com/doa12), [이동현](https://github.com/slozche)
+- BE: [김 현](https://github.com/uoahy)(VL), [강서의](https://github.com/lemon203213), [권유경](https://github.com/Eachkwon)
+- Design: 정찬울
 
 ## 아키텍처
 
@@ -72,12 +79,6 @@
 </div>
 
 ### [라이브러리 상세(Notion link)](https://ddooyn.notion.site/10e4c333c42546c68d7628c0526995b1)
-
-## 팀원 소개
-
-- FE: [윤수영](https://github.com/ddooyn)(L), [김다흰](https://github.com/doa12), [이동현](https://github.com/slozche)
-- BE: [김 현](https://github.com/uoahy)(VL), [강서의](https://github.com/lemon203213), [권유경](https://github.com/Eachkwon)
-- Design: 정찬울
 
 ## 트러블 슈팅
 
